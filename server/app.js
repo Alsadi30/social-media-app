@@ -1,8 +1,26 @@
 require("dotenv").config( {encoding: 'latin1'});
 const express = require("express")
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const logger = require("./utils/logger");
+const setMiddleware = require("./middlewares")
 
 const app = express()
+
+setMiddleware(app)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.use((req,res,next)=>{
     let error = new Error("404 Page not found")
@@ -32,13 +50,17 @@ mongoose.connect(process.env.MONGODB_URI,{
    
 })
      .then(()=>{
-         app.listen(PORT,()=>{
-         console.log('Server is running on PORT ' + PORT)
-     });
+        logger.info('Database Connected')
     })
      .catch((e)=>{
          console.log(e) 
+         logger.error(e.message)
      })
 
 
  mongoose.set('useFindAndModify', false);
+
+ 
+ app.listen(PORT,()=>{
+    console.log('Server is running on PORT ' + PORT)
+});
