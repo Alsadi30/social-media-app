@@ -2,11 +2,11 @@ const {Schema,model} = require('mongoose')
 
 const profileSchema = new Schema({
 
-    user:{
-        type:Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
+    // user:{
+    //     type:Schema.Types.ObjectId,
+    //     ref:'User',
+    //     required:true
+    // },
     name:{
         type:String,
         required:true,
@@ -32,19 +32,23 @@ const profileSchema = new Schema({
             ref:'Poll'
         }
     ],
-    bookmarks:[
+    bookmark:[
         {
             type:Schema.Types.ObjectId,
             ref:'Post'
         }
     ],
+    profilePics:String,
     institute:String,
     birthDate:{
-        type:Number,
-        required:true
+        type:String,
+        // required:true
     },
-    gender:String,
-    language:true
+    gender:{
+        type:String,
+        required:true,
+    },
+    language:String
 
 },{timestamp: true})
 
