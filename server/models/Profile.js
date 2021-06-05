@@ -19,7 +19,7 @@ const profileSchema = new Schema({
         trim:true,
         maxlength:500
     },
-    link:[],
+    link:String,
     post:[
         {
             type:Schema.Types.ObjectId,
@@ -32,19 +32,23 @@ const profileSchema = new Schema({
             ref:'Poll'
         }
     ],
-    bookmarks:[
+    bookmark:[
         {
             type:Schema.Types.ObjectId,
             ref:'Post'
         }
     ],
+    profilePics:String,
     institute:String,
     birthDate:{
-        type:Number,
-        required:true
+        type:String,
+        // required:true
     },
-    gender:String,
-    language:true
+    gender:{
+        type:String,
+        required:true,
+    },
+    language:String
 
 },{timestamp: true})
 

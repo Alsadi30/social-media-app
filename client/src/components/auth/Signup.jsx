@@ -5,6 +5,11 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
+import {signUp} from '../../store/actions/authAction' 
+import {useDispatch,useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
+
+
 
 
 
@@ -19,12 +24,18 @@ const initialState = {
 const SignUp =()=>{
   
     const [forme,setForm] = useState(initialState)
-    const [showPassword,setShowIcon] = useState('false')
+    const [showPassword,setShowIcon] = useState(false)
      
-   
+
+    const error = useSelector((state)=>state.authReducer.error.error)
+  
+    const dispatch = useDispatch()
+    const history = useHistory()
+
 
     const handleSubmit = (event) =>{
         event.preventDefault()
+        dispatch(signUp(forme,history))
        setForm(initialState)
     }
 
@@ -36,6 +47,7 @@ const SignUp =()=>{
     const showIcon = () =>{
         setShowIcon(!showPassword)
     }
+    console.log((error?'true':'false'))
 
  return(
      
@@ -58,7 +70,7 @@ const SignUp =()=>{
   justify="center"
   alignItems="center" >
      <Grid item xs={10}>
-     <FormControl>
+     <FormControl  error={error?error.name?true:false:false} >
        <InputLabel htmlFor="name">Name</InputLabel>
           <Input
              name='name'
@@ -68,16 +80,18 @@ const SignUp =()=>{
             value={forme.name}
             onChange={handleChange}
             aria-describedby="name-aria"
+          
             required
             />
-            <FormHelperText id="name-aria">Weight</FormHelperText>
+          {error?<FormHelperText error id="name-aria">{error.name}</FormHelperText>:''}
        </FormControl> 
        </Grid>
 
        <Grid item xs={10}>
-     <FormControl>
-       <InputLabel htmlFor="email">Email</InputLabel>
+     <FormControl error={error?error.email?true:false:false} >
+       <InputLabel htmlFor="email" >Email</InputLabel>
           <Input
+             required
              fullWidth 
             name='email'
             id="email"
@@ -86,12 +100,12 @@ const SignUp =()=>{
             onChange={handleChange}
             aria-describedby="email-aria"
              />
-            <FormHelperText id="email-aria">Weight</FormHelperText>
+          {error?<FormHelperText error id="name-aria">{error.email}</FormHelperText>:''}
        </FormControl>  
        </Grid> 
 
        <Grid item xs={8}>
-       <FormControl>
+       <FormControl error={error?error.password?true:false:false}>
        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
              fullWidth 
@@ -113,12 +127,12 @@ const SignUp =()=>{
               </InputAdornment>
             }
             />
-            <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
+            {error?<FormHelperText error id="name-aria">{error.password}</FormHelperText>:''}
        </FormControl>
        </Grid>
 
        <Grid item xs={10}>
-       <FormControl>
+       <FormControl  error={error?error.confirmPassword?true:false:false}>
        <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
           <Input
             fullWidth 
@@ -129,7 +143,7 @@ const SignUp =()=>{
             onChange={handleChange}
             aria-describedby="confirmPassword-aria"
              />
-            <FormHelperText id="confirmPassword-aria">Weight</FormHelperText>
+            {error?<FormHelperText error id="name-aria">{error.confirmPassword}</FormHelperText>:''}
        </FormControl> 
        </Grid>
        <Grid item>

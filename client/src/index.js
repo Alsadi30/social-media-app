@@ -4,18 +4,36 @@ import './index.css';
 import App from './App.js';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import store from './store';
 import {Provider} from 'react-redux'
-import store from './store'
+import setAuthToken from './utils/setAuthToken'
+import jwtDecode from 'jwt-decode'
+import Types from './store/actions/type'
+
+const token = localStorage.getItem('auth_token')
+
+if(token){
+  let decode = jwtDecode(token)
+  setAuthToken(token)
+  store.dispatch({
+    type:Types.SET_USER,
+    payload:{
+      user:decode
+    }
+  })
+}
 
 
 
 
 ReactDOM.render(
+
   <Provider store={store}>
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  </Provider>,
+   <App />
+   </React.StrictMode>
+ </Provider>,
+
   document.getElementById('root')
 );
 

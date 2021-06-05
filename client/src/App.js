@@ -2,6 +2,7 @@ import React from 'react';
 import SignUp from './components/auth/Signup'
 import Login from './components/auth/Login'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
+import Profile from './components/profile';
 
 function App() {
   return (
@@ -9,9 +10,9 @@ function App() {
     <div className='App'>
      <Switch>
        <Route path='/signup' exact component={SignUp}/> 
-       <Route path='/login' component={Login}/> 
+       <Route path='/login' exact component={Login}/> 
+       <Route path='/create-profile' exact component={Profile}/>
      </Switch> 
-      <SignUp/>
     </div>
     </BrowserRouter>
     

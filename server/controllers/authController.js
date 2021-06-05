@@ -8,7 +8,6 @@ const Profile = require('../models/Profile')
 const authenticate = require('../validator/authentication/authenticate')
 
 exports.signupController = async (req, res, next) => {
-    console.log('i am called')
     let {
         name,
         email,
@@ -127,19 +126,19 @@ exports.profileController = async (req,res,next) =>{
     
     let {name,bio,link,institute,birthDate,gender,language,profilePics}  = req.body
    
-    let profilePic = profilePics ? profilePics:'' 
+   console.log(req.userId)
 
 
     let profile = new Profile({
-        // user:req.user._id,
+        user:req.userId,
         name,
         bio,
-        link:link||[],
+        link:link||'',
         institute:institute||'',
         birthDate:birthDate||'',
         gender,
         language:language||'',
-        profilePics:profilePic||'',
+        profilePics:profilePics||'',
         post:[],
         poll:[],
         bookmark:[]
@@ -150,19 +149,20 @@ exports.profileController = async (req,res,next) =>{
 
     
 
-    // await User.findOneAndUpdate({
-    //     _id:req.user._id
-    // },{$set:{
-    //     profile:createdProfile._id,
-    //     profilePics:profilePics
-    // }})
+    await User.findOneAndUpdate({
+        _id:req.userId
+    },{$set:{
+        profile:createdProfile._id,
+        profilePics:profilePics
+    }})
 
     res.status(201).json({
         msg:createdProfile
     })
 
-  } catch{
+  } catch(error){
+         console.log(error)
          res.status(505).json({ error:'Server Error Occured'})
-         next()
+       
   }
 }

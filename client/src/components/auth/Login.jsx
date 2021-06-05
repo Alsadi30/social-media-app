@@ -4,7 +4,9 @@ import {Container,Grid,InputAdornment,FormControl,InputLabel,Input,FormHelperTex
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+import {login} from '../../store/actions/authAction'
+import {useDispatch,useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 
 
 
@@ -16,15 +18,18 @@ const initialState = {
 }
 
 
-const SignUp =()=>{
+const Login =()=>{
   
     const [forme,setForm] = useState(initialState)
-    const [showPassword,setShowIcon] = useState('false')
-     
+    const [showPassword,setShowIcon] = useState(false)
+    const error = useSelector((state)=>state.authReducer.error)
    
+    const dispatch = useDispatch()
+    const history = useHistory()
 
     const handleSubmit = (event) =>{
         event.preventDefault()
+        dispatch(login(forme,history))
        setForm(initialState)
     }
 
@@ -39,7 +44,7 @@ const SignUp =()=>{
 
  return(
      
-   <Container component="main" maxWidth="xs">
+   <Container fixed component="main" maxWidth="xs">
     
 <Paper elevation={6}>
 
@@ -50,17 +55,18 @@ const SignUp =()=>{
           <LockOutlinedIcon />
      </Avatar>
      <Typography component="h1" variant="h5">
-        SignUp
+        Login
      </Typography>  
      </Grid>
     <form  className={''} onSubmit = {handleSubmit}>
      <Grid container  spacing={2}  direction="column"
   justify="center"
   alignItems="center" >
+   
      
-
+     
        <Grid item xs={10}>
-     <FormControl>
+       <FormControl error={error?.error?.email?true:false} >
        <InputLabel htmlFor="email">Email</InputLabel>
           <Input
              fullWidth 
@@ -71,12 +77,12 @@ const SignUp =()=>{
             onChange={handleChange}
             aria-describedby="email-aria"
              />
-            <FormHelperText id="email-aria">Weight</FormHelperText>
+           {error?<FormHelperText error id="name-aria">{error.error?.email}</FormHelperText>:''}
        </FormControl>  
        </Grid> 
 
        <Grid item xs={8}>
-       <FormControl>
+       <FormControl error={error.error?.password?true:false}>
        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
              fullWidth 
@@ -98,7 +104,10 @@ const SignUp =()=>{
               </InputAdornment>
             }
             />
-            <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
+           {error?<FormHelperText error id="name-aria">{error.error?.password}</FormHelperText>:''}
+           {error? (error?.error?.email||error?.error?.password)?'':<FormHelperText error id="name-aria">{error?.error?.toString()}</FormHelperText>:''}
+            
+           {/* {(error?.name || error?.password)?'':<FormHelperText error id="name-aria">{error?error:''}</FormHelperText>} */}
        </FormControl>
        </Grid>
 
@@ -115,4 +124,4 @@ const SignUp =()=>{
 }
 
 
-export default SignUp;
+export default Login;

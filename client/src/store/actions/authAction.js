@@ -4,7 +4,7 @@ import setAuthToken from '../../utils/setAuthToken'
 import jwtDecode from 'jwt-decode'
 
 export const signUp = (user,history) => (dispatch) =>{
-    axios.post('/auth/signup',user)
+    axios.post('http://localhost:8080/auth/signup',user)
       .then(res=>{
           dispatch({
               type:Types.USER_ERROR,
@@ -25,7 +25,7 @@ export const signUp = (user,history) => (dispatch) =>{
 
 
 export const login = (user,history) => (dispatch)=>{
-    axios.post('/auth/login',user)
+    axios.post('http://localhost:8080/auth/login',user)
        .then(res => {
            let token = res.data.token
            localStorage.setItem('auth_token',token)
@@ -37,13 +37,13 @@ export const login = (user,history) => (dispatch)=>{
                   user:decode
                }
            })
-           history.push('/')
+           history.push('/create-profile')
        })
        .catch(e =>{
            dispatch({
                type:Types.USER_ERROR,
                payload:{
-                   error:e.response.data.error
+                   error:e.response.data
                }
            })
        })
