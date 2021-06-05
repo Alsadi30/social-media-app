@@ -2,11 +2,11 @@ const {Schema,model} = require('mongoose')
 
 const profileSchema = new Schema({
 
-    // user:{
-    //     type:Schema.Types.ObjectId,
-    //     ref:'User',
-    //     required:true
-    // },
+    user:{
+        type:Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+    },
     name:{
         type:String,
         required:true,
@@ -19,7 +19,7 @@ const profileSchema = new Schema({
         trim:true,
         maxlength:500
     },
-    link:[],
+    link:String,
     post:[
         {
             type:Schema.Types.ObjectId,

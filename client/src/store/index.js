@@ -8,3 +8,4 @@ const store = createStore(rootReducer,compose(applyMiddleware(...middleware),win
 
 
 export default store;
+

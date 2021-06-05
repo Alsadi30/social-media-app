@@ -1,24 +1,24 @@
 const {body} = require('express-validator')
 const validator = require("validator");
 
-const dateValidator = (value) =>{
-    if(value){
-        if(!validator.isDate(value)){
-            throw new Error('Please Provide Valid Date')
-        }
-    }
-}
+// const dateValidator = (value) =>{
+//     if(value){
+//         let val = value + ''
+//         if(!validator.isDate(val)){
+//             throw new Error('Please Provide Valid Date')
+//         }
+//     }
+// }
 
 
 const linkValidator = (value) => {
     if (value) {
-        value.map(v=>{
-            if (!validator.isURL(v)) {
+            if (!validator.isURL(value)) {
                 throw new Error("Please Provide Valid URL");
               }
-        })
+        }
      
-    }
+    
     return true;
 };
 
@@ -39,9 +39,9 @@ module.exports = [
       .withMessage('Bio Must Be Contain 10 Chars'),
   
         
-    // body('birthDate')
-    // .notEmpty()
-    //  .withMessage('Date of Birth Can Not Be Empty')
+    body('birthDate')
+    .notEmpty()
+     .withMessage('Date of Birth Can Not Be Empty'),
     //  .custom(dateValidator),
    
      body('link')
