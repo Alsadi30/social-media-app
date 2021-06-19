@@ -5,17 +5,17 @@ const profileSchema = new Schema({
     user:{
         type:Schema.Types.ObjectId,
         ref:'User',
-        required:true
+        // required:true
     },
     name:{
         type:String,
-        required:true,
+        // required:true,
         trim:true,
         maxlength:30
     },
     bio:{
         type:String,
-        required:true,
+        // required:true,
         trim:true,
         maxlength:500
     },
@@ -46,11 +46,11 @@ const profileSchema = new Schema({
     },
     gender:{
         type:String,
-        required:true,
+        // required:true,
     },
     language:String
 
-},{timestamp: true})
+},{timestamps: true})
 
 const Profile = model('Profile',profileSchema)
 

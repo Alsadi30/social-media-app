@@ -37,7 +37,12 @@ export const login = (user,history) => (dispatch)=>{
                   user:decode
                }
            })
-           history.push('/create-profile')
+
+           if (decode.profile) {
+               history.push('/')
+           } else {
+            history.push('/create-profile')  
+           } 
        })
        .catch(e =>{
            dispatch({

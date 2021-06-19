@@ -2,6 +2,18 @@
 import Types from './type'
 import axios from 'axios'
 
+
+
+
+
+
+
+
+
+
+
+
+
 export const createProfile = (profile,history) => (dispatch) =>{
     axios.post('http://localhost:8080/auth/create-profile',profile)
      .then(res=>{
@@ -15,7 +27,7 @@ export const createProfile = (profile,history) => (dispatch) =>{
           history.push('/')
      })
      .catch(error=>{
-        //  console.log(error.response.data)
+        //  console.log(error.response.data)                                                                                                                        
          dispatch({
              type:Types.PROFILE_ERROR,
              payload:error.response.data

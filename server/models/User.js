@@ -24,7 +24,7 @@ const userSchema = new Schema({
         type:String,
         default:'/uploads/default.png'
     },},
-    {timestamp:true})
+    {timestamps:true})
 
 const User = model('User',userSchema)
 
