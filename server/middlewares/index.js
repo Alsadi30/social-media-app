@@ -4,7 +4,7 @@ const cors = require('cors')
 
 
 const middleware = [
-    express.static('public'),
+    // express.static(__dirname + '../public'),
     express.urlencoded({extended:true}), 
     express.json(),
     cors(),

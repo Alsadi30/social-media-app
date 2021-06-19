@@ -5,7 +5,7 @@ const {
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const Profile = require('../models/Profile')
-const authenticate = require('../validator/authentication/authenticate')
+
 
 exports.signupController = async (req, res, next) => {
     let {
@@ -81,10 +81,14 @@ exports.loginController = async (req, res, next) => {
                 })
             }
 
+            let profile =  user.profile?true:false
+
             let token = jwt.sign({
                 _id: user.id,
+                profilePics:user.profilePics,
                 email: user.email,
-                name: user.name
+                name: user.name,
+                profile
             }, 'SECRET', {
                 expiresIn: '5h'
             })
@@ -109,6 +113,35 @@ exports.loginController = async (req, res, next) => {
 
 
 
+exports.uploadProfileController = async (req, res, next) =>{
+    let profilePics = req.file?.filename
+
+    const id = req.userId
+
+    try{
+       const user =  await User.findOneAndUpdate({
+            _id:id   },{$set:{
+                profilePics
+            }})
+        console.log(profilePics)
+        console.log(req.userId)
+    
+        res.status(201).json({msg:'Profile pic uploaded',user})
+    }
+    catch(error){
+        res.status(500).json({error:'server error occured in profilePics'})
+    }
+
+   
+
+}
+
+
+
+
+
+// TODO:We Should Update Front User At ProfileController
+
 
 exports.profileController = async (req,res,next) =>{
   
@@ -124,10 +157,11 @@ exports.profileController = async (req,res,next) =>{
   
   try{
     
-    let {name,bio,link,institute,birthDate,gender,language,profilePics}  = req.body
+    let {name,bio,link,institute,birthDate,gender,language}  = req.body
    
-   console.log(req.userId)
-
+    
+    
+    
 
     let profile = new Profile({
         user:req.userId,
@@ -138,7 +172,6 @@ exports.profileController = async (req,res,next) =>{
         birthDate:birthDate||'',
         gender,
         language:language||'',
-        profilePics:profilePics||'',
         post:[],
         poll:[],
         bookmark:[]
@@ -153,7 +186,6 @@ exports.profileController = async (req,res,next) =>{
         _id:req.userId
     },{$set:{
         profile:createdProfile._id,
-        profilePics:profilePics
     }})
 
     res.status(201).json({
@@ -165,4 +197,68 @@ exports.profileController = async (req,res,next) =>{
          res.status(505).json({ error:'Server Error Occured'})
        
   }
+}
+
+exports.updateProfileController = async (req, res, next) => {
+
+    console.log('a first')
+
+    
+    let {id} = req.params
+
+  
+
+    let profile = await Profile.findById({_id:id})
+   
+    let {
+       
+        institute,
+       
+        language
+      } = req.body
+    
+   
+    
+
+    try {
+        if (profile.user.toString() === req.userId) {
+         
+            console.log('a second')
+
+            let profile = await Profile.findOneAndUpdate({ _id: id },  { $set: { institute,language,}},{ new: true })
+            
+            res.status(201).json({profile})
+        } else {
+            res.status(404).json({msg:'You are not a valid user'})
+        }
+    } catch (e) {
+        res.status(500).json({e})
+     }
+
+
+}
+
+exports.deleteProfileController = async (req, res, next) => {
+
+    let {id} = req.params
+
+ 
+
+    let profile = await Profile.findById({_id:id})
+
+    try {
+        if (profile.user.toString() === req.userId) {
+      
+            await Profile.findOneAndDelete({_id:id})
+            
+            res.status(201).json({msg:'ok'})
+        } else {
+            res.status(404).json({msg:'You are not a valid user'})
+        }
+    } catch (e) {
+        res.status(500).json({e})
+     }
+    
+   
+
 }

@@ -6,7 +6,7 @@ const postSchema = new Schema({
         type:String,
         maximum:500
     },
-    tag:[String],
+    tags:String,
     author:{
         type:Schema.Types.ObjectId,
         ref:'User'
@@ -30,7 +30,7 @@ const postSchema = new Schema({
             ref:'User'
         }
     ],
-},{timestamp: true})
+},{timestamps:true})
 
 const Post = model('Post',postSchema)
 

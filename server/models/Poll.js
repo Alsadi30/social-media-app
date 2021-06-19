@@ -26,7 +26,7 @@ const pollSchema = new Schema({
         }
     ]
 
-},{timestamp: true})
+},{timestamps: true})
 
 const Poll= model('Poll',pollSchema)
 

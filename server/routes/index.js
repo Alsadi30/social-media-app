@@ -1,6 +1,8 @@
 const router = require('express').Router()
 
 const authRoute = require('./authRoute')
+const postRoute = require('./postRoute')
+
 
 
 
@@ -23,9 +25,10 @@ const routes = [
         handler:authRoute
     },
     {
-        path:'/',
-        handler:route
-    }
+        path:'/post',
+        handler:postRoute
+    },
+   
    
 ]
 

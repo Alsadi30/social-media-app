@@ -1,4 +1,4 @@
-import Types from '../actions/type'
+ import Types from '../actions/type'
 
 
 const initialProfile = {

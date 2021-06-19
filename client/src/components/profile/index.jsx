@@ -4,14 +4,14 @@ import FileBase from 'react-file-base64'
 import {useHistory} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import {createProfile} from '../../store/actions/profileAction'
-
-
+import axios from 'axios'
+import Types from '../../store/actions/type'
+ 
 
 const initialState ={
     name:'',
     bio:'',
     link:'',
-    profilePics:'',
     institute:'',
     birthDate:'',
     gender:'',
@@ -34,9 +34,37 @@ const handleChange = (event) =>{
 const handleSubmit = (event) =>{
      event.preventDefault()
      console.log(forme)
-     dispatch(createProfile(forme,history))
-     setForm(initialState)
+  dispatch(createProfile(forme,history))
+  setForm(initialState)
+    
 }
+
+const [image,setImage] = useState({})
+const handleImage = (event)=>{
+  setImage(event.target.files[0])
+}
+const sendImage=(event)=>{
+  event.preventDefault()
+  let formData = new FormData()
+
+  formData.append('profilePics',image)
+  
+
+  axios.post('http://localhost:8080/auth/profilePics',formData)
+   .then(res=>{
+    dispatch({ 
+      type:Types.SET_USER,
+      payload:{
+         user:res.data.user
+      }
+  })
+   })
+   .catch(e=>console.log(e))
+   
+  
+  }
+
+
 
 
     return (
@@ -55,7 +83,7 @@ const handleSubmit = (event) =>{
                     </Toolbar>
                 </AppBar>	
                 </Grid>
-                  <form  className={''} onSubmit = {handleSubmit}  >
+                  <form  action='post' className={''} onSubmit = {handleSubmit} encType="multipart/form-data" >
 
                     <Grid item spacing={2} xs={12} sm={10}  direction="column"
                       justify="center"
@@ -160,14 +188,14 @@ const handleSubmit = (event) =>{
                         />
                       {error?<FormHelperText error id="language-aria">{error.error?.language}</FormHelperText>:''}
                      </FormControl>
-
-                    </Grid>
-
+                       
+                     </Grid>
+                      
                      
                     <Grid item spacing={2} xs={12} sm={10}  direction="column"
                       justify="center"
                        alignItems="center">
-
+                        
                       <FormControl fullWidth={true} error={error?.error?.link?true:false} >
                        <InputLabel htmlFor="link">Link</InputLabel>
                       <Input
@@ -190,15 +218,16 @@ const handleSubmit = (event) =>{
                        alignItems="center">
 
                   <div>     
-                      <FormControl fullWidth={true} error={error?.error?.link?true:false} >
-                       <InputLabel htmlFor="link">Upload Profile Pic</InputLabel>
+                      <FormControl fullWidth={true} error={error?.error?.profilePics?true:false} >
+                       <InputLabel htmlFor="profilePics">Upload Profile Pic</InputLabel>
                       
+                       {/* <Input type='file'  accept="image/png, image/jpeg , image/jpg"  multiple={false} onChange={handleChange} name='profilePics' value={forme.profilePics} /> */}
                      
-                       <FileBase type='file' multiple={false} onDone={({ base64 }) => setForm({ ...forme, profilePics: base64 })}/>
-              
-                     
+                       {/* <FileBase type='file' multiple={false} onDone={({ base64 }) => setForm({ ...forme, profilePics: base64 })}/> */}
+                       <input name='profilePics' type='file'  onChange={handleImage} /> 
+                     <button onClick={sendImage}>Upload</button>
 
-                      {error?<FormHelperText error id="link-aria">{error.error?.link}</FormHelperText>:''}
+                      {error?<FormHelperText error id="profilePics-aria">{error.error?.profilePics}</FormHelperText>:''}
                      </FormControl>
                      </div>
 
@@ -228,7 +257,7 @@ const handleSubmit = (event) =>{
                     </Grid>
 
                     <Grid item>
-                           <Button onClick={handleSubmit} variant="contained" color="primary" size="small">Submit</Button>
+                           <Button onClick={handleSubmit} variant="contained"   color="primary" size="small">Submit</Button> 
                     </Grid>
 
                     </form>  
@@ -240,3 +269,6 @@ const handleSubmit = (event) =>{
 }
 
 export default Profile
+
+
+

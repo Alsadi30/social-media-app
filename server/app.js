@@ -4,9 +4,13 @@ const mongoose = require("mongoose");
 const logger = require("./utils/logger");
 const setMiddleware = require("./middlewares")
 const setRoute = require("./routes")
+const  path = require('path');
+
+
+
 
 const app = express()
-
+app.use(express.static(path.join(__dirname, 'public')));
 setMiddleware(app)
 
 setRoute(app)
