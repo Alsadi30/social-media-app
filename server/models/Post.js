@@ -6,7 +6,7 @@ const postSchema = new Schema({
         type:String,
         maximum:500
     },
-    tags:String,
+    tags:[],
     author:{
         type:Schema.Types.ObjectId,
         ref:'User'
@@ -15,7 +15,7 @@ const postSchema = new Schema({
     like:[
         {
             type:Schema.Types.ObjectId,
-            ref:'Like'
+            ref:'User'
         }
     ],
     comment:[

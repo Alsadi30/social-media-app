@@ -4,10 +4,15 @@ import {makeStyles,fade} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
-      flexGrow: 1,
-    },
+    flexGrow: 1,
+   
+  },
+  
+  root: {
+    backgroundColor: '#263238'
+  },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(.1),
     },
     title: {
       display: 'none',
@@ -52,15 +57,18 @@ const useStyles = makeStyles((theme) => ({
         width: '20ch',
       },
     },
-    sectionDesktop: {
-        padding: theme.spacing(0, 15),
+  sectionDesktop: {
+        padding: theme.spacing(0, 7),
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
+     justify:'space-between'
+
       },
     },
     icon:{
-        padding:theme.spacing(0, 10),
+      padding: theme.spacing(0,10,0,5),
+      color:'#e0e0e0'
     },
     sectionMobile: {
       display: 'flex',

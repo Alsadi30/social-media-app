@@ -39,8 +39,6 @@ export const createPost = (post) => (dispatch) => {
 
 export const getPosts = () => (dispatch) => {
   axios.get('http://localhost:8080/post').then((res) => {
-    console.log('i am called');
-    console.log(res.data);
     dispatch({
       type: Types.GET_POSTS,
       payload: {
@@ -93,3 +91,31 @@ export const deletePost = (id) => (dispatch) => {
       console.log(e);
     });
 };
+
+export const addLike = (id) => (dispatch) => {
+  axios.post(`http://localhost:8080/post/like/${id}`)
+    .then(res => {
+      console.log(res.data)
+      dispatch({
+        type: Types.EDIT_POST,
+        payload:res.data.updatedPost
+       })
+    })
+    .catch(e => {
+      console.log(e)  
+    })
+}
+
+export const addComment = (id, body) => (dispatch) => {
+  axios.post(`http://localhost:8080/post/comment/${id}`, body)
+    .then(res => {
+      console.log(res.data)
+      dispatch({
+        type: Types.EDIT_POST,
+        payload:res.data
+      })
+    })
+    .catch(e => {
+      console.log(e)
+    })
+}

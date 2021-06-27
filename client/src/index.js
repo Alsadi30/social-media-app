@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App.js';
@@ -9,6 +9,7 @@ import {Provider} from 'react-redux'
 import setAuthToken from './utils/setAuthToken'
 import jwtDecode from 'jwt-decode'
 import Types from './store/actions/type'
+
 
 const token = localStorage.getItem('auth_token')
 
@@ -22,6 +23,7 @@ if(token){
     }
   })
 }
+
 
 
 

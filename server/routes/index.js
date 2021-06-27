@@ -5,20 +5,6 @@ const postRoute = require('./postRoute')
 
 
 
-
-
-
-
-
-
-const route =  router.get('/',(req,res,next)=>{
-     res.json({msg:'success'})
-     console.log('i am basic')
-})
-
-
-
-
 const routes = [
     {
         path:'/auth',

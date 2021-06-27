@@ -1,32 +1,48 @@
-import React,{useState} from 'react'
+import React,{useEffect} from 'react'
 import {Grid,Button, Typography} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add';
 import useStyles from './rightStyle'
 import CreatePost from '../../CreatePost'
+import {useDispatch,useSelector} from 'react-redux'
+import {getUsers} from '../../../store/actions/profileAction'
+import Users from './Users'
 
 function RightSide() {
-
+    const dispatch = useDispatch()
     const classes = useStyles()
 
+    const users = useSelector(state => state.profileReducer.users)
 
+
+    useEffect(() => {
+      dispatch(getUsers())
+  },[dispatch])
 
 
 
 
 
     return (
-        <div>
+        <>
         <Button variant="outlined" color="primary" className={classes.createPost} >
-                <AddIcon className={classes.plus} />
+              
                 <CreatePost />
         
         </Button>   
 
         <Grid>
             <Typography className={classes.typo} variant="h6" color="initial">People You May Know </Typography>
-        </Grid>   
+            </Grid>
+            <Grid container>
+            {users.map(user => 
+                <Grid item>
+                   
+                    <Users user={user} />
+                </Grid>   
+                    )}
+               
+            </Grid>
 
-        </div>
+        </>
     )
 }
 

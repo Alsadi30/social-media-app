@@ -1,48 +1,24 @@
-import React,{useState} from 'react'
-import { Grid, IconButton, Menu, MenuItem } from '@material-ui/core'
+import React from 'react'
+import { Grid,Typography, IconButton, Menu, MenuItem } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../postStyle'
 import {useDispatch,useSelector} from 'react-redux'
 import {deletePost} from '../../../../store/actions/postAction'
 import EditPost from '../EditPost';
+import moment from 'moment'
 
 
 
 
-const useStyles = makeStyles((theme)=>({
-    root: {
-      borderRadius: 5,
-      border: 0,
-      width:25,
-      height: 25,
-      padding: 0,
-      marginRight: 10,
-      marginTop:10,
-      //   maxWidth: 345,
-    },
-    image: {
-      borderRadius:50,
-      padding:0,
-    },
-    name: {
-      padding: theme.spacing(1, 0, 0.8, 0),
-      margin:theme.spacing(.4, 0, 0.8, 0),
-    },
-   
+
+
+
+export default function PostHeader({ post }) {
     
-    
-    }));
-
-
-
-
-export default function PostHeader({ user,post }) {
-    
+ 
+   const {profilePics,name,_id} = useSelector(state => state.authReducer.user)
     const dispatch = useDispatch()
-
-  
-  
+   
     const handleDelete = () => {
         dispatch(deletePost(post._id))
         handleClose()
@@ -68,20 +44,24 @@ export default function PostHeader({ user,post }) {
     return (
        
         <Grid container>
-        <Grid item>
-        <button className={classes.root}>{(user.profilePics && <img className={classes.image} src={`http://localhost:8080/uploads/${user.profilePics}`} alt='ProfilePic' width='25' height='25' />) || <AccountCircleRoundedIcon />}</button>          
+        <Grid container item xs={4}  direction='row'>
+          <Grid item>
+            {post?.author?.profilePics ? <button className={classes.root}><img className={classes.image} src={`http://localhost:8080/uploads/${ post.author.profilePics }`} alt='ProfilePic' width='35' height='35' /> </button>:<button className={classes.root}><img className={classes.image} src={`http://localhost:8080/uploads/${profilePics}`} alt='ProfilePic' width='35' height='35' /> </button> }
+            </Grid>    
+              <Grid item className={classes.name}>
+            { post?.author?.name ? post.author.name:name}
+            
+            <Typography color="textSecondary"  variant="body2">{moment(post.createdAt).fromNow()}</Typography>
         </Grid>
-        <Grid item className={classes.name}>
-        {user.name}
-        </Grid>
-
-        <Grid item >
+          </Grid>
+         <Grid item xs={7}></Grid>
+        <Grid item xs={1} >
 
         
           
-          <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+          <IconButton className={classes.EditButton} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
           <MoreVertIcon onClick={handleClick} />
-      </IconButton>
+          </IconButton>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -89,9 +69,14 @@ export default function PostHeader({ user,post }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Bookmark</MenuItem>
+            <MenuItem onClick={handleClose}>Bookmark</MenuItem>
+            {post?.author?._id === _id &&
+            <>
             <div onClick={handleClose}><EditPost post={post}/></div>
-        <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
+            <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
+              </>
+            }
+           
       </Menu>
         </Grid>
 
