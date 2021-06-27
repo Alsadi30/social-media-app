@@ -4,21 +4,48 @@ import RightSide from './RightSide'
 import {Grid,Paper} from '@material-ui/core'
 import LeftSide from './LeftSide'
 import useStyles from './style'
+import { useLocation,useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Posts from './Posts'
 import { getPosts } from '../../store/actions/postAction'
-import Types from '../../store/actions/type'
+import {logout} from '../../store/actions/authAction'
+import jwtDecode from 'jwt-decode'
+
+
 
 function Feed() {
-  
+
+
+  const history = useHistory()
+  const location = useLocation()
+   
   const dispatch = useDispatch()
+  
+
+  useEffect(() => {
+   
+    const token = localStorage.getItem('auth_token')
+    
+    if (token) {
+      const decodedToken = jwtDecode(token);   
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+          dispatch(logout(history))
+      }
+    }
+  
+  },[location] );
+
+
+
+
+
+ 
 
   const classes = useStyles()
 
   const postss = useSelector(state => state.postReducer.posts)
   const [posts,setPost] = useState([])
   
-  console.log(postss)
   
   useEffect(() => {
      setPost(postss)
@@ -32,7 +59,7 @@ function Feed() {
     dispatch(getPosts())
   },[dispatch])
 
-  
+ 
  
 
 
@@ -52,6 +79,7 @@ function Feed() {
                 <Grid item xs={12} md={6}>
                 <Paper>
             {!posts ? <Paper >Create Post or Subscribe other user to see posts</Paper> : posts.map(post => {
+              console.log('at feed before pushing'+post)
                return(<Posts post={post}/>)
             }) 
 }

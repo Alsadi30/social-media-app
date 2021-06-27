@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {Container,Grid,InputAdornment,FormControl,InputLabel,Input,FormHelperText,Paper,Avatar,Typography,IconButton , Button} from '@material-ui/core'
-
+import {Link as link} from 'react-router-dom'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -8,7 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {signUp} from '../../store/actions/authAction' 
 import {useDispatch,useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-
+import useStyles from './authStyle'
 
 
 
@@ -22,12 +22,14 @@ const initialState = {
 
 
 const SignUp =()=>{
-  
+    const classes = useStyles()
     const [forme,setForm] = useState(initialState)
     const [showPassword,setShowIcon] = useState(false)
      
 
     const error = useSelector((state)=>state.authReducer.error.error)
+
+
   
     const dispatch = useDispatch()
     const history = useHistory()
@@ -36,7 +38,7 @@ const SignUp =()=>{
     const handleSubmit = (event) =>{
         event.preventDefault()
         dispatch(signUp(forme,history))
-       setForm(initialState)
+      //  setForm(initialState)
     }
 
     const handleChange = (e) =>{
@@ -47,30 +49,34 @@ const SignUp =()=>{
     const showIcon = () =>{
         setShowIcon(!showPassword)
     }
-    console.log((error?'true':'false'))
 
- return(
+  return (
+   
+ 
      
    <Container component="main" maxWidth="xs">
     
-<Paper elevation={6}>
+    <Paper elevation={12} className={classes.Grid}>
 
-<Grid container spacing={1}  direction="row"
-  justify="center"
-  alignItems="center" >
-     <Avatar className={''}>
-          <LockOutlinedIcon />
-     </Avatar>
-     <Typography component="h1" variant="h5">
-        SignUp
-     </Typography>  
+   <Grid container direction="column"
+       justify="center"
+         alignItems="center"  >
+         <Grid container item spacing={1} justify="center"
+         alignItems="center">
+           <Grid item >
+           <Avatar >
+              <LockOutlinedIcon />
+             </Avatar>
+           </Grid>
+           <Grid item >
+          <Typography component="h1" variant="h5">
+             SignUp
+           </Typography>
+           </Grid>
      </Grid>
     <form  className={''} onSubmit = {handleSubmit}>
-     <Grid container  spacing={2}  direction="column"
-  justify="center"
-  alignItems="center" >
-     <Grid item xs={10}>
-     <FormControl  error={error?error.name?true:false:false} >
+    
+     <FormControl className={classes.button} fullWidth  error={error?error.name?true:false:false} >
        <InputLabel htmlFor="name">Name</InputLabel>
           <Input
              name='name'
@@ -85,10 +91,8 @@ const SignUp =()=>{
             />
           {error?<FormHelperText error id="name-aria">{error.name}</FormHelperText>:''}
        </FormControl> 
-       </Grid>
-
-       <Grid item xs={10}>
-     <FormControl error={error?error.email?true:false:false} >
+    
+     <FormControl className={classes.button} fullWidth error={error?error.email?true:false:false} >
        <InputLabel htmlFor="email" >Email</InputLabel>
           <Input
              required
@@ -102,10 +106,8 @@ const SignUp =()=>{
              />
           {error?<FormHelperText error id="name-aria">{error.email}</FormHelperText>:''}
        </FormControl>  
-       </Grid> 
 
-       <Grid item xs={8}>
-       <FormControl error={error?error.password?true:false:false}>
+       <FormControl className={classes.button} fullWidth error={error?error.password?true:false:false}>
        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
              fullWidth 
@@ -129,10 +131,8 @@ const SignUp =()=>{
             />
             {error?<FormHelperText error id="name-aria">{error.password}</FormHelperText>:''}
        </FormControl>
-       </Grid>
-
-       <Grid item xs={10}>
-       <FormControl  error={error?error.confirmPassword?true:false:false}>
+     
+       <FormControl className={classes.button} fullWidth  error={error?error.confirmPassword?true:false:false}>
        <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
           <Input
             fullWidth 
@@ -145,12 +145,14 @@ const SignUp =()=>{
              />
             {error?<FormHelperText error id="name-aria">{error.confirmPassword}</FormHelperText>:''}
        </FormControl> 
-       </Grid>
-       <Grid item>
-       <Button onClick={handleSubmit} variant="contained" color="primary" size="small">Submit</Button>
-       </Grid>
-     </Grid>
+      <Grid container item>
+       <Button className={classes.button} type='submit' variant="contained" color="primary" size="small">Submit</Button>
+       <Typography className={classes.link} component={link} to='/login'>
+               Already Have An Account? Login
+             </Typography>
+             </Grid> 
      </form>
+     </Grid>
      </Paper>
  
    </Container>

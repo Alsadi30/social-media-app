@@ -22,7 +22,7 @@ const userSchema = new Schema({
     },
     profilePics:{
         type:String,
-        default:'/uploads/default.png'
+        default:'/default.png'
     },},
     {timestamps:true})
 

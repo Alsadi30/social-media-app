@@ -60,7 +60,7 @@ const postReducer = (state=init,action) =>{
             console.log(action.payload.id)
             return {
                 ...state,
-                posts: state.post.filter(p => p._id !== action.payload),
+                posts: state.posts.filter(post => post._id !== action.payload),
                 isLoading:false
             }
         }

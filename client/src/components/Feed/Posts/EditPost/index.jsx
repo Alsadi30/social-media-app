@@ -4,7 +4,8 @@ import {
   useDispatch,useSelector
 } from 'react-redux'
 import { addThumbnail ,editPost } from '../../../../store/actions/postAction'
-
+import ChipInput from 'material-ui-chip-input'
+import useStyles from './style'
 
 import {
   Dialog,
@@ -15,7 +16,7 @@ import {
   Button,
   FormControl,
   Input,
-  InputLabel
+  TextField
 } from '@material-ui/core';
 
 
@@ -24,13 +25,19 @@ import {
 const initialState = {thumbnail:'',body:'',tags:''}
 
 export default function EditPost({post}) {
-
+  const classes = useStyles()
   const dispatch = useDispatch()
 
 
  
   
+  const handleAddChip = (tag) => {
+    setForm({ ...formdata, tags: [...formdata.tags, tag] });
+  };
 
+  const handleDeleteChip = (chipToDelete) => {
+    setForm({ ...formdata, tags: formdata.tags.filter((tag) => tag !== chipToDelete) });
+  };
  
 
 
@@ -70,30 +77,28 @@ const sendImage = (event) => {
   
   // post submit
 
-  const [forme, setForm] = useState(initialState)
+  const [formdata, setForm] = useState(initialState)
 
   const thumbnail = useSelector((state)=>state.postReducer.thumbnail)
 
     useEffect(() => {
-    setForm({...forme,thumbnail})
+    setForm({...formdata,thumbnail})
   },[thumbnail,dispatch])
   
 
     
- 
-  
-console.log(post,thumbnail)  
-    
-    
 
   const postSubmit = (e) => {
     e.preventDefault()
-    dispatch(editPost(post._id,forme))
+    dispatch(editPost(post._id, formdata))
     setForm(initialState)
   
     handleClose()
   }
-
+  
+  const handleChange = (event) => {
+    setForm({...formdata,[event.target.name]:event.target.value})
+  }
   
 
 
@@ -102,6 +107,7 @@ console.log(post,thumbnail)
 
       <>
      <MenuItem onClick={handleOpen}>Edit Post </MenuItem>
+    
 
       <Dialog open = {
         open
@@ -116,12 +122,15 @@ console.log(post,thumbnail)
         }
       }
       id = "draggable-dialog-title" >
-          Edit This Post </DialogTitle>
+          Create A Post </DialogTitle>
+
+        
+          <form onSubmit={postSubmit}>
         <DialogContent>
 
       <FormControl fullWidth >
             <label htmlFor="thumbnail" > Add Thumbnail </label>
-            <Input  name = 'thumbnail' onChange={handleImage}  id = "thumbnail" 
+            <Input  name = 'thumbnail' onChange={handleImage}  id = "thumbnail"
       type = {
         'file'
       }
@@ -130,11 +139,13 @@ console.log(post,thumbnail)
       aria-describedby = "thumbnail-aria"/>
           </FormControl>
           
-          <Button onClick={sendImage}>Upload</Button>
+          <Button color={image ? 'secondary':''} className={classes.button} variant="contained" onClick={sendImage}>Upload</Button>
 
 
+     {/* Because of a bug i have to down the reach keyboard .I will add it after fixing the bug */}
+          
 
-      <FormControl >
+      {/* <FormControl >
 
       <Editor
 
@@ -145,7 +156,7 @@ console.log(post,thumbnail)
       onInit = {
         (evt, editor) => editorRef.current = editor
       }
-              initialValue={post.body}
+              initialValue="<p>This is the initial content of the editor.</p>"
               onEditorChange={(newValue, editor) => setForm({...forme,body: newValue })}
       init = {
         {
@@ -167,21 +178,42 @@ console.log(post,thumbnail)
       }
       />               
 
-    </FormControl>
+    </FormControl> */}
+
+         <TextField
+          id="standard-full-width"
+          label="Post Body"
+          style={{ margin: 8 }}
+          placeholder="Write Your Post"
+            fullWidth
+            multiline
+            margin="normal"
+            name='body'
+          InputLabelProps={{
+            shrink: true,
+            }}
+            value={formdata.body}
+            onChange = {
+              (event=>handleChange(event))
+            }
+            
+        /> 
 
 
 
-    <FormControl fullWidth>
-            <InputLabel htmlFor="tag" > Add Tags </InputLabel>
-            <Input    name = 'tags' id = "tag" type = {'text' }
-  value = {
-    post.tags
-  }
-  onChange = {
-    ((event)=>{setForm({...forme,[event.target.name]:event.target.value})})
-  }
-  aria-describedby = "thumbnail-aria" />
-    </FormControl>
+
+
+        <div style={{ padding: '10px 0', width: '100%' }}>
+          <ChipInput
+            name="tags"
+            variant="outlined"
+            label="Tags"
+            fullWidth
+            value={formdata.tags}
+            onAdd={(chip) => handleAddChip(chip)}
+            onDelete={(chip) => handleDeleteChip(chip)}
+          />
+        </div>
 
 
 
@@ -191,21 +223,19 @@ console.log(post,thumbnail)
 
         </DialogContent>
         <DialogActions >
-          <Button autoFocus onClick={
+          <Button  variant='contained' onClick={
     handleClose
   }
-  color = "primary" >
+  color = "secondary" >
     Cancel </Button>
 
-    <Button onClick = {
-      postSubmit
-    }
+    <Button variant='contained' type='submit'
   color = "primary" >
     Submit </Button>  
     </DialogActions >
-
+    </form>
     </Dialog>
-
+    
     </>
 
 

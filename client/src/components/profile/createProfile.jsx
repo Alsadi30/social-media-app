@@ -1,14 +1,15 @@
 import React,{useState} from 'react'
-import {Container,AppBar, Grid,InputAdornment,FormControl,InputLabel,Input,FormHelperText,Paper,Avatar,Typography,IconButton , Button,TextField, Toolbar} from '@material-ui/core'
-import FileBase from 'react-file-base64'
+import {Container,AppBar, Grid,FormControl,InputLabel,Input,FormHelperText,Paper,Typography, Button,TextField, Toolbar} from '@material-ui/core'
 import {useHistory} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
-import {createProfile} from '../../store/actions/profileAction'
+import {createProfile,updateProfile} from '../../store/actions/profileAction'
 import axios from 'axios'
 import Types from '../../store/actions/type'
- 
+import setAuthToken from '../../utils/setAuthToken'
+import jwtDecode from 'jwt-decode'
+import useStyles from './createStyle' 
 
-const initialState ={
+let initialState ={
     name:'',
     bio:'',
     link:'',
@@ -18,8 +19,23 @@ const initialState ={
     language:''
 }
 
-const Profile =() =>{
-
+const Profile = () => {
+  const classes = useStyles()
+  const profile = useSelector(state => state.profileReducer.profile)
+  const token = localStorage.getItem('auth_token')
+  const decoded = jwtDecode(token)
+  if (decoded.profile) {
+    initialState = {
+      name: profile.name,
+      bio:profile.bio,
+      link:profile.link||'',
+      institute:profile.institute||'',
+      birthDate:profile.birthDate,
+      gender:profile.gender,
+      language:profile.language||''
+    }
+   }
+  
 const [forme,setForm] = useState(initialState)
 const history = useHistory()
 const dispatch = useDispatch()
@@ -30,16 +46,21 @@ const handleChange = (event) =>{
         console.log()
         setForm({...forme,[event.target.name]:event.target.value})
 }
-
+console.log(profile._id)
 const handleSubmit = (event) =>{
      event.preventDefault()
-     console.log(forme)
-  dispatch(createProfile(forme,history))
+  if (!decoded.profile) {
+    dispatch(createProfile(forme,history))
+  } else {
+    dispatch(updateProfile(profile._id,forme,history))
+  }
   setForm(initialState)
     
-}
+  }
+  
 
-const [image,setImage] = useState({})
+  const [image, setImage] = useState({})
+  
 const handleImage = (event)=>{
   setImage(event.target.files[0])
 }
@@ -52,15 +73,19 @@ const sendImage=(event)=>{
 
   axios.post('http://localhost:8080/auth/profilePics',formData)
    .then(res=>{
-    dispatch({ 
-      type:Types.SET_USER,
-      payload:{
-         user:res.data.user
-      }
-  })
+    let token = res.data.token
+   localStorage.setItem('auth_token',token)
+   setAuthToken(token)
+    const decode = jwtDecode(token)
+   dispatch({ 
+       type:Types.SET_USER,
+       payload:{
+           user:decode
+       }
+   })
    })
    .catch(e=>console.log(e))
-   
+  
   
   }
 
@@ -68,26 +93,23 @@ const sendImage=(event)=>{
 
 
     return (
-        // <Container component='main'  maxWidth="xs">
-        <Paper elevation={6} >
-        <Grid container xs={12} sm={10} md={6}  spacing={2}  direction="column"
-        justify="center"
-        alignItems="center" >
-              <Grid item  spacing={2}  direction="column"   justify="center"
+        <Container component='main'  maxWidth="sm">
+        <Paper elevation={6} className={classes.paper} >
+        <Grid container xs={12}  spacing={2}  direction="column"
+               justify="center"
+               alignItems="center" >
+              <Grid item  spacing={2} xs={10}  direction="column"   justify="center"
   alignItems="center">
                 <AppBar position="relative" color='transparent'>
-                    <Toolbar component='div' variant='regular'> 
-                    <Typography variant="h4" align ='center' color='Primary' component='h2'>
-                       Create Your Profile
+                    <Toolbar className={classes.toolbar} component='div' variant='regular'> 
+                    <Typography variant="h4"  color='Primary' component='h2'>
+                    {decoded.profile?'Update Your Profile':'Create Your Profile'}   
                        </Typography>   
                     </Toolbar>
                 </AppBar>	
-                </Grid>
-                  <form  action='post' className={''} onSubmit = {handleSubmit} encType="multipart/form-data" >
+    
+                  <form  className={classes.form} onSubmit = {handleSubmit} >
 
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
                   
                       <FormControl fullWidth={true} error={error?.error?.name?true:false} >
                        <InputLabel htmlFor="name">Name</InputLabel>
@@ -103,13 +125,7 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="name-aria">{error.error?.name}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
-
-
-                     
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
+         
 
                       <FormControl fullWidth={true} error={error?.error?.bio?true:false} >
                        <InputLabel htmlFor="bio">Bio</InputLabel>
@@ -125,13 +141,8 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="bio-aria">{error.error?.bio}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
 
 
-                     
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
 
                       <FormControl fullWidth={true} error={error?.error?.institute?true:false} >
                        <InputLabel htmlFor="institute">Institute</InputLabel>
@@ -147,13 +158,7 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="institute-aria">{error.error?.institute}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
-
-
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
-
+                 
                     <FormControl fullWidth={true} error={error?.error?.gender?true:false} >
                        <InputLabel htmlFor="gender">Gender</InputLabel>
                       <Input
@@ -168,12 +173,6 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="gender-aria">{error.error?.gender}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
-
-                     
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
 
                       <FormControl fullWidth={true} error={error?.language?true:false} >
                        <InputLabel htmlFor="language">Language</InputLabel>
@@ -189,12 +188,7 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="language-aria">{error.error?.language}</FormHelperText>:''}
                      </FormControl>
                        
-                     </Grid>
-                      
-                     
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
+      
                         
                       <FormControl fullWidth={true} error={error?.error?.link?true:false} >
                        <InputLabel htmlFor="link">Link</InputLabel>
@@ -210,32 +204,19 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="link-aria">{error.error?.link}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
+               
 
-
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
-
-                  <div>     
+                   <div className={classes.upload}>     
                       <FormControl fullWidth={true} error={error?.error?.profilePics?true:false} >
                        <InputLabel htmlFor="profilePics">Upload Profile Pic</InputLabel>
-                      
-                       {/* <Input type='file'  accept="image/png, image/jpeg , image/jpg"  multiple={false} onChange={handleChange} name='profilePics' value={forme.profilePics} /> */}
-                     
-                       {/* <FileBase type='file' multiple={false} onDone={({ base64 }) => setForm({ ...forme, profilePics: base64 })}/> */}
-                       <input name='profilePics' type='file'  onChange={handleImage} /> 
-                     <button onClick={sendImage}>Upload</button>
+        
+                       <Input name='profilePics' type='file' id='profilePics'  onChange={handleImage} /> 
+                    <Button variant='contained' color={image ? 'secondary':''}  className={classes.button} onClick={sendImage}>Upload</Button>
 
                       {error?<FormHelperText error id="profilePics-aria">{error.error?.profilePics}</FormHelperText>:''}
                      </FormControl>
                      </div>
 
-                    </Grid>
-
-                    <Grid item spacing={2} xs={12} sm={10}  direction="column"
-                      justify="center"
-                       alignItems="center">
 
                       <FormControl variant={'outlined'} fullWidth={true} error={error?.error?.birthDate?true:false} >
                       
@@ -254,17 +235,15 @@ const sendImage=(event)=>{
                       {error?<FormHelperText error id="birthDate-aria">{error.error?.birthDate}</FormHelperText>:''}
                      </FormControl>
 
-                    </Grid>
+                           <Button type='submit' className={classes.button} variant="contained"   color="primary" size="small">Submit</Button> 
+                   
 
-                    <Grid item>
-                           <Button onClick={handleSubmit} variant="contained"   color="primary" size="small">Submit</Button> 
-                    </Grid>
-
-                    </form>  
+              </form>
+               </Grid>
                     </Grid>
                 
          </Paper>
-        //  {/* </Container> */}
+          </Container>
     )
 }
 

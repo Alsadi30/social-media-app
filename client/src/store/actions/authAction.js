@@ -34,7 +34,7 @@ export const login = (user,history) => (dispatch)=>{
            dispatch({ 
                type:Types.SET_USER,
                payload:{
-                  user:decode
+                   user:decode
                }
            })
 
@@ -56,16 +56,18 @@ export const login = (user,history) => (dispatch)=>{
 
 
 
-export const logout = (history) => dispatch =>{
+export const logout = (history) => dispatch => {
+    console.log('I am Call at logout')
     localStorage.removeItem('auth_token')
-    history.push('/login')
+  
+    dispatch({
+            type:Types.SET_USER,
+            payload:{
+                user: {}
+            }
 
-    return {
+      })
+     
+      
     
-       type:Types.SET_USER,
-       payload:{
-           user:{}
-       }
-
-    }
  }
