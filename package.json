@@ -5,10 +5,10 @@
   "main": "app.js",
   "engines": {
     "node": "14.15.0"
-    },
+  },
   "scripts": {
     "dev": "node app.js",
-    "start":"node app.js",
+    "start": "node app.js",
     "server": "node app.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
@@ -30,5 +30,4 @@
     "rotating-file-stream": "^2.1.5",
     "validator": "^13.6.0"
   }
-
 }
