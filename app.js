@@ -1,7 +1,7 @@
 require("dotenv").config( {encoding: 'latin1'});
 const express = require("express")
 const mongoose = require("mongoose");
-const logger = require("./utils/logger");
+// const logger = require("./utils/logger");
 const setMiddleware = require("./middlewares")
 const setRoute = require("./routes")
 const  path = require('path');
@@ -61,7 +61,8 @@ mongoose.connect(process.env.MONGODB_URI,{
    
 })
      .then(()=>{
-        logger.info('Database Connected')
+        // logger.info('Database Connected')
+         console.log('Database Connected')
     })
      .catch((e)=>{
          console.log(e) 

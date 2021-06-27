@@ -1,5 +1,5 @@
 const express = require('express')
-const useMorgan = require('./useMorgan')
+// const useMorgan = require('./useMorgan')
 const cors = require('cors')
 
 
@@ -14,7 +14,7 @@ const middleware = [
 
 
 module.exports = app =>{
-    useMorgan(app)
+    // useMorgan(app)
     middleware.forEach(m=>{
         app.use(m)
     })
