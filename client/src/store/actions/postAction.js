@@ -1,10 +1,15 @@
 import Types from './type';
 import axios from 'axios';
 
+
+
+const URL = 'http://localhost:8080'
+
+
 export const addThumbnail = (formData) => (dispatch) => {
   console.log('am hitting');
   axios
-    .post('http://localhost:8080/post/thumbnail', formData)
+    .post('/post/thumbnail', formData)
     .then((res) => {
       console.log(res.data.thumbnail);
       dispatch({
@@ -17,7 +22,7 @@ export const addThumbnail = (formData) => (dispatch) => {
 
 export const createPost = (post) => (dispatch) => {
   axios
-    .post('http://localhost:8080/post', post)
+    .post('/post', post)
     .then((res) => {
       console.log(res.data);
       dispatch({
@@ -38,7 +43,7 @@ export const createPost = (post) => (dispatch) => {
 };
 
 export const getPosts = () => (dispatch) => {
-  axios.get('http://localhost:8080/post').then((res) => {
+  axios.get('/post').then((res) => {
     dispatch({
       type: Types.GET_POSTS,
       payload: {
@@ -49,7 +54,7 @@ export const getPosts = () => (dispatch) => {
 };
 
 export const getSinglePost = (id) => (dispatch) => {
-  axios.get(`http://localhost:8080/post/${id}`)
+  axios.get(`/post/${id}`)
     .then(res => {
       dispatch({
         type: Types.GET_POST,
@@ -62,7 +67,7 @@ export const getSinglePost = (id) => (dispatch) => {
 }
 
 export const editPost = (id,data) => (dispatch) => {
-  axios.post(`http://localhost:8080/post/${id}`, data)
+  axios.post(`/post/${id}`, data)
     .then(res => {
        console.log(res.data)
        dispatch({
@@ -79,7 +84,7 @@ export const editPost = (id,data) => (dispatch) => {
 
 export const deletePost = (id) => (dispatch) => {
   axios
-    .delete(`http://localhost:8080/post/${id}`)
+    .delete(`/post/${id}`)
     .then((res) => {
       console.log(res.data);
       dispatch({
@@ -93,7 +98,7 @@ export const deletePost = (id) => (dispatch) => {
 };
 
 export const addLike = (id) => (dispatch) => {
-  axios.post(`http://localhost:8080/post/like/${id}`)
+  axios.post(`/post/like/${id}`)
     .then(res => {
       console.log(res.data)
       dispatch({
@@ -107,7 +112,7 @@ export const addLike = (id) => (dispatch) => {
 }
 
 export const addComment = (id, body) => (dispatch) => {
-  axios.post(`http://localhost:8080/post/comment/${id}`, body)
+  axios.post(`/post/comment/${id}`, body)
     .then(res => {
       console.log(res.data)
       dispatch({

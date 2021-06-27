@@ -2,8 +2,10 @@ import Types from './type'
 import axios from 'axios'
 
 
+const URL = 'http://localhost:8080/'
+
 export const createProfile = (profile,history) => (dispatch) =>{
-    axios.post('http://localhost:8080/auth/create-profile',profile)
+    axios.post('/auth/create-profile',profile)
      .then(res=>{
          console.log(res.data.msg)
          dispatch({
@@ -14,8 +16,7 @@ export const createProfile = (profile,history) => (dispatch) =>{
           })
           history.push('/')
      })
-     .catch(error=>{
-        //  console.log(error.response.data)                                                                                                                        
+     .catch(error=>{                                          
          dispatch({
              type:Types.PROFILE_ERROR,
              payload:error.response.data
@@ -25,7 +26,7 @@ export const createProfile = (profile,history) => (dispatch) =>{
 
 export const getProfile = (id) => (dispatch) => {
     
-    axios.get(`http://localhost:8080/auth/get-profile/${id}`)
+    axios.get(`/auth/get-profile/${id}`)
         .then(res => {
             console.log(res)
             dispatch({
@@ -41,7 +42,7 @@ export const getProfile = (id) => (dispatch) => {
 
 
 export const updateProfile = (id, forme, history) => (dispatch) => {
-    axios.post(`http://localhost:8080/auth/update-profile/${id}`, forme)
+    axios.post(`/auth/update-profile/${id}`, forme)
         .then(res => {
             console.log(res.data)
             dispatch({
@@ -56,10 +57,8 @@ export const updateProfile = (id, forme, history) => (dispatch) => {
 }
 
 export const deleteProfile = (id) => (dispatch) => {
-    console.log('clled'+id)
-    axios.delete(`http://localhost:8080/auth/delete-profile/${id}`)
+    axios.delete(`/auth/delete-profile/${id}`)
         .then(res => {
-            console.log(res.data)
             dispatch({
                 type: Types.SET_USER,
                 payload: {
@@ -74,7 +73,7 @@ export const deleteProfile = (id) => (dispatch) => {
 
 
 export const getUsers = () => (dispatch) => {
-    axios.get('http://localhost:8080/auth/users')
+    axios.get('/auth/users')
         .then(res => {
             dispatch({
                 type: Types.GET_USERS,
