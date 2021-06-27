@@ -38,11 +38,9 @@ const SignUp =()=>{
     const handleSubmit = (event) =>{
         event.preventDefault()
         dispatch(signUp(forme,history))
-      //  setForm(initialState)
     }
 
     const handleChange = (e) =>{
-        console.log('I an called')
         setForm({ ...forme, [e.target.name]: e.target.value })
     }
 
@@ -164,8 +162,6 @@ const SignUp =()=>{
 export default SignUp;
 
 
-// codesignal
-//hackerrank
-//letcode
+
 
 

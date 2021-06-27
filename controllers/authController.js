@@ -19,7 +19,6 @@ exports.signupController = async (req, res, next) => {
         name,
         email,
         password,
-        confirmPassword
     } = req.body
 
     let errors = validationResult(req).formatWith((error) => error.msg)
@@ -68,7 +67,6 @@ exports.loginController = async (req, res, next) => {
         email,
         password
     } = req.body
-    console.log('called')
     let errors = validationResult(req).formatWith((error) => error.msg)
 
     console.log(errors.mapped())
@@ -118,7 +116,6 @@ exports.loginController = async (req, res, next) => {
         }
 
     } catch {
-          console.log()
           res.status(505).json({error:'Server error occured in login'})
     }
 }
@@ -138,7 +135,6 @@ exports.getUsersController = async (req, res, next) => {
         res.status(404).json('You are not an valid user')        
     } else {
         try {
-            
             let users = await User.find()
             res.status(201).json(users)
         }
@@ -166,7 +162,6 @@ exports.uploadProfileController = async (req, res, next) =>{
                 profilePics
        }
        })
-        console.log(user)
         
        let profile =  user.profile?true:false
         
@@ -179,7 +174,6 @@ exports.uploadProfileController = async (req, res, next) =>{
     }, 'SECRET', {
         expiresIn: '5h'
     })
-     console.log(user)
     
         res.status(201).json({msg:'Profile pic uploaded',user, token: `Bearer ${token}`})
     }
@@ -250,7 +244,6 @@ exports.profileController = async (req,res,next) =>{
     })
 
   } catch(error){
-         console.log(error)
          res.status(505).json({ error:'Server Error Occured'})
        
   }
@@ -260,8 +253,8 @@ exports.profileController = async (req,res,next) =>{
 //api:/auth//get-profile/:id
 
 exports.getProfileController = async (req, res, next) => {
-    let {id} = req.params
-   console.log(id)
+    let { id } = req.params
+    
     try {
         let profile = await Profile.findOne({ user: id })
             .populate({
@@ -340,7 +333,6 @@ exports.deleteProfileController = async (req, res, next) => {
 
     let {id} = req.params
 
-   console.log(id,req.userId)
 
     let profile = await Profile.findById({_id:id})
 

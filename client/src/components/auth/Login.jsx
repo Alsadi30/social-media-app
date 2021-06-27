@@ -30,25 +30,11 @@ const Login =()=>{
   
 
 
-  // useEffect(() => {
-  //   const listener = event => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("Enter key was pressed. Run your function.");
-  //       event.preventDefault();
-  //       handleSubmit(event)
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, []);
+ 
 
     const handleSubmit = (event) =>{
         event.preventDefault()
         dispatch(login(forme,history))
-      console.log(forme)
-        //  setForm(initialState)
     }
 
     const handleChange = (e) =>{
@@ -119,7 +105,7 @@ const Login =()=>{
                 onClick={showIcon}
               
               >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
+                {!showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
           }

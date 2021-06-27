@@ -134,7 +134,6 @@ exports.getSinglePostController = async (req, res, next) => {
     }
   } catch (error) {
     res.json('Server error Occured in');
-    console.log(error);
   }
 };
 
@@ -252,7 +251,6 @@ exports.addLikeController = async (req, res, next) => {
 
   } catch(error) {
       res.status(500).json('server error ocurred')
-      console.log(error)
     }
 }
 
