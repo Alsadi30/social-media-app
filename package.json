@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "14.15.0"
+    },
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js",
+    "dev": "node app.js",
+    "start":"node app.js",
     "server": "node app.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
@@ -25,10 +28,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "rotating-file-stream": "^2.1.5",
-    "validator": "^13.6.0",
-    "winston": "^3.3.3"
-  },
-  "engines": {
-    "node": "14.15.0"
+    "validator": "^13.6.0"
   }
+
 }
