@@ -39,7 +39,7 @@ export default function Profile() {
                   alignItems="center"
                   className={classes.profileHead}>
                   <Grid item >
-                    {profilePics && <img className={classes.profilePic} src={`http://localhost:8080/uploads/${profilePics}`} alt='ProfilePic' width='150px' height='150px' />}
+                    {profilePics && <img className={classes.profilePic} src={`/uploads/${profilePics}`} alt='ProfilePic' width='150px' height='150px' />}
                   </Grid>
                  <Grid item className={classes.profileName}>
                     {profile.name}

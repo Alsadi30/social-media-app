@@ -12,8 +12,11 @@ import jwtDecode from 'jwt-decode'
 
 function App(){
 
-  const token = localStorage.getItem('auth_token')
- const user = jwtDecode(token)
+  let user;
+  if (localStorage.getItem('auth_token')) {
+    const token = localStorage.getItem('auth_token')
+    user = jwtDecode(token)
+  }
 
   return (
     <BrowserRouter>

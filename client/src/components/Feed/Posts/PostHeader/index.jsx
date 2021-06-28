@@ -46,7 +46,7 @@ export default function PostHeader({ post }) {
         <Grid container>
         <Grid container item xs={4}  direction='row'>
           <Grid item>
-            {post?.author?.profilePics ? <button className={classes.root}><img className={classes.image} src={`http://localhost:8080/uploads/${ post.author.profilePics }`} alt='ProfilePic' width='35' height='35' /> </button>:<button className={classes.root}><img className={classes.image} src={`http://localhost:8080/uploads/${profilePics}`} alt='ProfilePic' width='35' height='35' /> </button> }
+            {post?.author?.profilePics ? <button className={classes.root}><img className={classes.image} src={`/uploads/${ post.author.profilePics }`} alt='ProfilePic' width='35' height='35' /> </button>:<button className={classes.root}><img className={classes.image} src={`/uploads/${profilePics}`} alt='ProfilePic' width='35' height='35' /> </button> }
             </Grid>    
               <Grid item className={classes.name}>
             { post?.author?.name ? post.author.name:name}

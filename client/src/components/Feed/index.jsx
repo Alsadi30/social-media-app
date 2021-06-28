@@ -76,22 +76,24 @@ function Feed() {
                 </Grid>
                
                
-                <Grid item xs={12} md={6}>
-                <Paper>
+        <Grid item xs={12} md={6}>
+       
+          {isLoading ?   <Paper> <CircularProgress color="secondary" /></Paper> : <Paper>
+            
             {!posts ? <Paper >Create Post or Subscribe other user to see posts</Paper> : posts.map(post => {
-              console.log('at feed before pushing'+post)
-               return(<Posts post={post}/>)
-            }) 
-}
-                </Paper>  
+              console.log('at feed before pushing' + post)
+              return (<Posts post={post} />)
+            })
+            }
+          </Paper>}
                 </Grid>
               
             
                 <Grid item xs={0} md={3}>
           <Paper className={classes.rightSide} elevation={6} >
-             
-                           {isLoading ? <CircularProgress color="secondary" />:
-                            <RightSide/>}
+          
+                            <RightSide/>
+                          
                   </Paper>  
                 </Grid>
              
