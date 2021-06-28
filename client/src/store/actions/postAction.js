@@ -3,12 +3,13 @@ import axios from 'axios';
 
 
 
+const URL = 'https://socialmediaapplica.herokuapp.com'
 
 
 export const addThumbnail = (formData) => (dispatch) => {
   console.log('am hitting');
   axios
-    .post('/post/thumbnail', formData)
+    .post(`${URL}/post/thumbnail`, formData)
     .then((res) => {
       console.log(res.data.thumbnail);
       dispatch({
@@ -21,7 +22,7 @@ export const addThumbnail = (formData) => (dispatch) => {
 
 export const createPost = (post) => (dispatch) => {
   axios
-    .post('/post', post)
+    .post(`${URL}/post`, post)
     .then((res) => {
       console.log(res.data);
       dispatch({
@@ -42,7 +43,7 @@ export const createPost = (post) => (dispatch) => {
 };
 
 export const getPosts = () => (dispatch) => {
-  axios.get('/post').then((res) => {
+  axios.get(`${URL}/post`).then((res) => {
     dispatch({
       type: Types.GET_POSTS,
       payload: {
@@ -53,7 +54,7 @@ export const getPosts = () => (dispatch) => {
 };
 
 export const getSinglePost = (id) => (dispatch) => {
-  axios.get(`/post/${id}`)
+  axios.get(`${URL}/post/${id}`)
     .then(res => {
       dispatch({
         type: Types.GET_POST,
@@ -66,7 +67,7 @@ export const getSinglePost = (id) => (dispatch) => {
 }
 
 export const editPost = (id,data) => (dispatch) => {
-  axios.post(`/post/${id}`, data)
+  axios.post(`${URL}/post/${id}`, data)
     .then(res => {
        console.log(res.data)
        dispatch({
@@ -83,7 +84,7 @@ export const editPost = (id,data) => (dispatch) => {
 
 export const deletePost = (id) => (dispatch) => {
   axios
-    .delete(`/post/${id}`)
+    .delete(`${URL}/post/${id}`)
     .then((res) => {
       console.log(res.data);
       dispatch({
@@ -97,7 +98,7 @@ export const deletePost = (id) => (dispatch) => {
 };
 
 export const addLike = (id) => (dispatch) => {
-  axios.post(`/post/like/${id}`)
+  axios.post(`${URL}/post/like/${id}`)
     .then(res => {
       console.log(res.data)
       dispatch({
@@ -111,7 +112,7 @@ export const addLike = (id) => (dispatch) => {
 }
 
 export const addComment = (id, body) => (dispatch) => {
-  axios.post(`/post/comment/${id}`, body)
+  axios.post(`${URL}/post/comment/${id}`, body)
     .then(res => {
       console.log(res.data)
       dispatch({

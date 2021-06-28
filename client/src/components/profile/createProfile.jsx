@@ -71,7 +71,7 @@ const sendImage=(event)=>{
   formData.append('profilePics',image)
   
 
-  axios.post('/auth/profilePics',formData)
+  axios.post('https://socialmediaapplica.herokuapp.com/auth/profilePics',formData)
    .then(res=>{
     let token = res.data.token
    localStorage.setItem('auth_token',token)

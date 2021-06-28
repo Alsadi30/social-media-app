@@ -2,9 +2,10 @@ import Types from './type'
 import axios from 'axios'
 
 
+const URL = 'https://socialmediaapplica.herokuapp.com'
 
 export const createProfile = (profile,history) => (dispatch) =>{
-    axios.post('/auth/create-profile',profile)
+    axios.post(`${URL}/auth/create-profile`,profile)
      .then(res=>{
          console.log(res.data.msg)
          dispatch({
@@ -25,7 +26,7 @@ export const createProfile = (profile,history) => (dispatch) =>{
 
 export const getProfile = (id) => (dispatch) => {
     
-    axios.get(`/auth/get-profile/${id}`)
+    axios.get(`${URL}/auth/get-profile/${id}`)
         .then(res => {
             console.log(res)
             dispatch({
@@ -41,7 +42,7 @@ export const getProfile = (id) => (dispatch) => {
 
 
 export const updateProfile = (id, forme, history) => (dispatch) => {
-    axios.post(`/auth/update-profile/${id}`, forme)
+    axios.post(`${URL}/auth/update-profile/${id}`, forme)
         .then(res => {
             console.log(res.data)
             dispatch({
@@ -56,7 +57,7 @@ export const updateProfile = (id, forme, history) => (dispatch) => {
 }
 
 export const deleteProfile = (id) => (dispatch) => {
-    axios.delete(`/auth/delete-profile/${id}`)
+    axios.delete(`${URL}/auth/delete-profile/${id}`)
         .then(res => {
             dispatch({
                 type: Types.SET_USER,
@@ -72,7 +73,7 @@ export const deleteProfile = (id) => (dispatch) => {
 
 
 export const getUsers = () => (dispatch) => {
-    axios.get('/auth/users')
+    axios.get(`${URL}/auth/users`)
         .then(res => {
             dispatch({
                 type: Types.GET_USERS,
