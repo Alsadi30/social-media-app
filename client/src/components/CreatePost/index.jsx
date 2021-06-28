@@ -58,7 +58,6 @@ const sendImage = (event) => {
 
   formData.append('thumbnail', image)
   dispatch(addThumbnail(formData))
-  setImage({})
 }  
 
   
@@ -70,7 +69,7 @@ const sendImage = (event) => {
 
   useEffect(() => {
     setForm({...formdata,thumbnail})
-  },[thumbnail])
+  },[thumbnail,dispatch])
   
 
 

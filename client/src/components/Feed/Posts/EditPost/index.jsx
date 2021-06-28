@@ -22,7 +22,7 @@ import {
 
 
 
-const initialState = {thumbnail:'',body:'',tags:''}
+const initialState = {thumbnail:'',body:'',tags:[]}
 
 export default function EditPost({post}) {
   const classes = useStyles()
@@ -43,7 +43,7 @@ export default function EditPost({post}) {
 
 // modal controlling  
 
-  const editorRef = useRef()
+  // const editorRef = useRef()
   
   const [open, setOpen] = useState(false)
   const handleOpen = () => {
@@ -122,7 +122,7 @@ const sendImage = (event) => {
         }
       }
       id = "draggable-dialog-title" >
-          Create A Post </DialogTitle>
+          Edit A Post </DialogTitle>
 
         
           <form onSubmit={postSubmit}>
