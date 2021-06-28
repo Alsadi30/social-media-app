@@ -2,7 +2,6 @@ import Types from './type'
 import axios from 'axios'
 
 
-const URL = 'http://localhost:8080/'
 
 export const createProfile = (profile,history) => (dispatch) =>{
     axios.post('/auth/create-profile',profile)

@@ -26,7 +26,7 @@ export default function Profile() {
 
     return (
         <>
-            <Grid container direction='column' alignItems='center' justify='center'>
+            <Grid container direction='column' >
                 <Grid item>
                   <NavBar />
                 </Grid>
@@ -42,7 +42,7 @@ export default function Profile() {
                     {profilePics && <img className={classes.profilePic} src={`/uploads/${profilePics}`} alt='ProfilePic' width='150px' height='150px' />}
                   </Grid>
                  <Grid item className={classes.profileName}>
-                    {profile.name}
+                    {profile?.name}
                  </Grid>
             <Grid className={classes.button} container alignItems='end' justify='flex-end'>
                <Button component={Link} to='/create-profile'  variant="contained">Edit Profile</Button>
@@ -54,13 +54,13 @@ export default function Profile() {
                 <Grid container item className={classes.about} direction='column' spacing={2} alignItems='center'>
                     
                 <Grid item className={classes.topo}>
-                   Bio : {profile.bio}
+                   Bio : {profile?.bio}
                 </Grid>
                 <Grid item  className={classes.topo}>
-                   Language:  {profile.language}
+                   Language:  {profile?.language}
                 </Grid>
                 <Grid item className={classes.topo}>
-                    Institute : {profile.institute}
+                    Institute : {profile?.institute}
                 </Grid>
             </Grid>
                 <Grid
@@ -70,7 +70,7 @@ export default function Profile() {
                  justify="center"
                  alignItems="center">
                     <Grid item spacing={2} xs={12} md={8} lg={6}>
-                    {!profile.post ? <Paper >Create Post or Subscribe other user to see posts</Paper> : profile.post.map(posts => {
+                    {!profile.post ? <Paper >Create Post or Subscribe other user to see posts</Paper> : profile?.post.map(posts => {
                return(<Posts post={posts}/>)
             }) 
 }

@@ -16,7 +16,7 @@ const postReducer = (state=init,action) =>{
             
             return {
                 ...state,
-                posts: [...state.posts, action.payload],
+                posts: [action.payload,...state.posts],
                 isLoading:false
                 
             }

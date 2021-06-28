@@ -12,13 +12,13 @@ import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import logo from './logo.png'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { logout } from '../../store/actions/authAction'
-
+import { blueGrey} from '@material-ui/core/colors';
 
 
 const theme = createMuiTheme({
   palette: {
-    primary:{main:'#ffcdd2'},
-    secondary:{main:'#263238'}
+    primary:blueGrey,
+    secondary:blueGrey
   },
 
 });
@@ -73,7 +73,7 @@ function NavBar() {
                      
                 </IconButton>
                 </Link>   
-              <Typography className={classes.title}variant='h6' noWrap>
+              <Typography className={classes.title} variant='h6' noWrap>
                   Social Media App
                   </Typography>  
                      
@@ -82,7 +82,7 @@ function NavBar() {
 
 
 
-          <div className={classes.grow} />
+         
           <div className={classes.sectionDesktop}>
           <BottomNavigation
       value={value}

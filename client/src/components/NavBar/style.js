@@ -5,7 +5,7 @@ import {makeStyles,fade} from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
     grow: {
     flexGrow: 1,
-   
+      width:'100%'
   },
   
   root: {
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
       display: 'none',
+      padding: '0px 20px 0px 2px',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.25),
       },
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
       marginLeft: 0,
       width: '100%',
       [theme.breakpoints.up('sm')]: {
@@ -58,16 +59,21 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   sectionDesktop: {
-        padding: theme.spacing(0, 7),
+    padding: theme.spacing(0, 10,0,5),
+    margin:'0px 0px 0px 10px',
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
-     justify:'space-between'
+        justify: 'space-between',
+        [theme.breakpoints.up('sm')]: {
+          display: 'block',
+        },
 
       },
     },
     icon:{
-      padding: theme.spacing(0,10,0,5),
+      padding: theme.spacing(0, 11, 0, 5),
+      margin:'0px 0px 0px 5px',
       color:'#e0e0e0'
     },
     sectionMobile: {

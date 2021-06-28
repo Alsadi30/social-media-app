@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
  
     profileHead: {
         margin:'1px',
-        width: '192vh',
+        width: '100%',
         height: '500px',
         backgroundColor:'#546e7a'
     },

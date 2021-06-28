@@ -46,7 +46,7 @@ exports.postPostController = async (req, res, next) => {
                               
     let profile = await Profile.findOne({user: userId})
      
-    profile.post.push(createdPost._id)
+    profile.post.unshift(createdPost._id)
     
     await Profile.findOneAndUpdate({ user: userId }, { $set: profile })
     
@@ -81,6 +81,7 @@ exports.getPostController = async (req, res, next) => {
             select: 'name profilePics'
           }
         })
+      let Posts =post.reverse()
       res.status(201).json({
         posts,
       });

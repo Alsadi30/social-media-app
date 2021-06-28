@@ -3,7 +3,6 @@ import Types from './type'
 import setAuthToken from '../../utils/setAuthToken'
 import jwtDecode from 'jwt-decode'
 
-const URL = 'http://localhost:8080'
 
 export const signUp = (user,history) => (dispatch) =>{
     axios.post('/auth/signup',user)

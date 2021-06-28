@@ -71,7 +71,7 @@ const sendImage=(event)=>{
   formData.append('profilePics',image)
   
 
-  axios.post('http://localhost:8080/auth/profilePics',formData)
+  axios.post('/auth/profilePics',formData)
    .then(res=>{
     let token = res.data.token
    localStorage.setItem('auth_token',token)

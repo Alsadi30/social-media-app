@@ -85,7 +85,7 @@ const Posts = ({post}) => {
         <Grid container>
             <Grid item className={classes.buttonText}>  <ThumbUpIcon color={post.like?.includes(userId) ? 'primary' : ''} fontSize="small" /> </Grid>
             <Grid item >
-              <Typography  className={post.like.includes(userId)?classes.liked:classes.like}>{post.like.includes(userId) ? 'Liked' : 'Like'}    {post.like.length} </Typography></Grid>
+              <Typography  className={post.like?.includes(userId)?classes.liked:classes.like}>{post.like?.includes(userId) ? 'Liked' : 'Like'}    {post.like?.length} </Typography></Grid>
             </Grid>
         </button>
 
@@ -134,7 +134,7 @@ const Posts = ({post}) => {
                   <Grid container className={classes.comment} item xs={12} direction='column'>
                     <Grid container item>
                       <Grid item xs={1}>
-                        <button className={classes.root}>{(commen?.user?.profilePics && <img className={classes.image} src={`http://localhost:8080/uploads/${commen.user.profilePics}`} alt='ProfilePic' width='20' height='20' />) || <AccountCircleRoundedIcon />}</button>
+                        <button className={classes.root}>{(commen?.user?.profilePics && <img className={classes.image} src={`/uploads/${commen.user.profilePics}`} alt='ProfilePic' width='20' height='20' />) || <AccountCircleRoundedIcon />}</button>
                       </Grid>
                       <Grid xs={10} container item direction='column' className={classes.commentName} >
                         <Grid item >
