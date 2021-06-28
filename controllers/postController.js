@@ -81,9 +81,9 @@ exports.getPostController = async (req, res, next) => {
             select: 'name profilePics'
           }
         })
-      let Posts =post.reverse()
+      
       res.status(201).json({
-        Posts,
+        posts,
       });
     } catch (error) {
       res.status(500).json({

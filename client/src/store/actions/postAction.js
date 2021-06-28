@@ -47,7 +47,7 @@ export const getPosts = () => (dispatch) => {
     dispatch({
       type: Types.GET_POSTS,
       payload: {
-        post: res.data.Posts,
+        post: res.data.posts,
       },
     });
   });
