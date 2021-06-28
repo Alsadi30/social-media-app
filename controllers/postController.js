@@ -83,7 +83,7 @@ exports.getPostController = async (req, res, next) => {
         })
       let Posts =post.reverse()
       res.status(201).json({
-        posts,
+        Posts,
       });
     } catch (error) {
       res.status(500).json({
